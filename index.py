@@ -4,6 +4,8 @@ import time
 import json
 from flask_cors import CORS
 
+HEPTABASE_WHITEBOARD_ID = 'd4cc3728297609add1a00aab108e90c4e57a1c378cfc2307c251745bf7d2a884'
+
 # 存储 heptabase base 数据
 HEPTABASE_DATA = {'result':'erro','data':{},'time':''}
 
@@ -12,7 +14,7 @@ def get_hepta_data():
     获取 heptabase 数据
     '''
     req = requests.get(
-        'https://app.heptabase.com/api/whiteboard/?secret=d4cc3728297609add1a00aab108e90c4e57a1c378cfc2307c251745bf7d2a884')
+        'https://app.heptabase.com/api/whiteboard/?secret='+HEPTABASE_WHITEBOARD_ID)
     req_json = json.loads(req.text)
     return req_json
 
