@@ -30,8 +30,8 @@ def home():
     global HEPTABASE_DATA
 
     whiteboard_id = request.args.get('whiteboard_id')
-    
-    if(whiteboard_id):
+
+    if(whiteboard_id and whiteboard_id != 'null'):
         req_json = get_hepta_data(whiteboard_id)
     else:
         req_json = get_hepta_data(HEPTABASE_WHITEBOARD_ID)
