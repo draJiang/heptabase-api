@@ -17,8 +17,10 @@ def get_hepta_data(whiteboard_id):
 
     req = requests.get(
         'https://app.heptabase.com/api/whiteboard/?secret='+whiteboard_id)
-    req_json = json.loads(req.text)
-    return req_json
+    if(req.status_code != 200):
+        return {'code': req.status_code, 'data': ''}
+    else:
+        return {'code': req.status_code, 'data': json.loads(req.text)}
 
 
 app = Flask(__name__)
@@ -32,12 +34,12 @@ def home():
     whiteboard_id = request.args.get('whiteboard_id')
 
     if(whiteboard_id and whiteboard_id != 'null'):
-        req_json = get_hepta_data(whiteboard_id)
+        req = get_hepta_data(whiteboard_id)
     else:
-        req_json = get_hepta_data(HEPTABASE_WHITEBOARD_ID)
+        req = get_hepta_data(HEPTABASE_WHITEBOARD_ID)
 
-    HEPTABASE_DATA = {'result': 'success',
-                      'data': req_json, 'time': int(time.time())}
+    HEPTABASE_DATA = {'result': 'success', 'code': req['code'],
+                      'data': req['data'], 'time': int(time.time())}
     return HEPTABASE_DATA
 
 
