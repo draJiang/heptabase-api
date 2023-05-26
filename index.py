@@ -30,7 +30,7 @@ CORS(app, supports_credentials=True)
 
 
 @app.route('/')
-@cache.cached(timeout=60, query_string=True)  # 设置缓存的超时时间（以秒为单位）
+@cache.cached(timeout=600, query_string=True)  # 设置缓存的超时时间（以秒为单位）
 def home():
     global HEPTABASE_DATA
 
