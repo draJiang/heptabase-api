@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_caching import Cache
 import requests
 import time
 import json
@@ -24,10 +25,12 @@ def get_hepta_data(whiteboard_id):
 
 
 app = Flask(__name__)
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 CORS(app, supports_credentials=True)
 
 
 @app.route('/')
+@cache.cached(timeout=60, query_string=True)  # 设置缓存的超时时间（以秒为单位）
 def home():
     global HEPTABASE_DATA
 
