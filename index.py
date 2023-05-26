@@ -50,7 +50,7 @@ def home():
     cache_key = f'{whiteboard_id}'
 
     if cache.get(cache_key):  # 如果缓存存在，则直接从缓存中提取数据
-        return cache.get(cache_key)
+        return cache.get(cache_key)['data']
     else:
 
         if(whiteboard_id and whiteboard_id != 'null'):
