@@ -5,10 +5,22 @@ import time
 import json
 from flask_cors import CORS
 
+# Jiang 的数字花园 ID
 HEPTABASE_WHITEBOARD_ID = 'd4cc3728297609add1a00aab108e90c4e57a1c378cfc2307c251745bf7d2a884'
 
 # 存储 heptabase base 数据
 HEPTABASE_DATA = {'result': 'erro', 'data': {}, 'time': ''}
+
+
+def get_whiteborad_id():
+    '''
+    获取 whiteborad ID
+    '''
+    whiteboard_id = request.args.get('whiteboard_id')
+    if(whiteboard_id):
+        return whiteboard_id
+    else:
+        return HEPTABASE_WHITEBOARD_ID
 
 
 def get_hepta_data(whiteboard_id):
@@ -30,20 +42,25 @@ CORS(app, supports_credentials=True)
 
 
 @app.route('/')
-@cache.cached(timeout=600, query_string=True)  # 设置缓存的超时时间（以秒为单位）
+# @cache.cached(timeout=30, query_string=True)  # 设置缓存的超时时间（以秒为单位）
 def home():
     global HEPTABASE_DATA
 
-    whiteboard_id = request.args.get('whiteboard_id')
+    whiteboard_id = get_whiteborad_id()
+    cache_key = f'{whiteboard_id}'
 
-    if(whiteboard_id and whiteboard_id != 'null'):
-        req = get_hepta_data(whiteboard_id)
+    if cache.get(cache_key):  # 如果缓存存在，则直接从缓存中提取数据
+        return cache.get(cache_key)
     else:
-        req = get_hepta_data(HEPTABASE_WHITEBOARD_ID)
 
-    HEPTABASE_DATA = {'result': 'success', 'code': req['code'],
-                      'data': req['data'], 'time': int(time.time())}
-    return HEPTABASE_DATA
+        if(whiteboard_id and whiteboard_id != 'null'):
+            req = get_hepta_data(whiteboard_id)
+        else:
+            req = get_hepta_data(HEPTABASE_WHITEBOARD_ID)
+
+        HEPTABASE_DATA = {'result': 'success', 'code': req['code'],
+                          'data': req['data'], 'time': int(time.time())}
+        return HEPTABASE_DATA
 
 
 @app.route('/update')
@@ -52,9 +69,16 @@ def update():
     获取 hepta 数据存储到全局变量中
     '''
     global HEPTABASE_DATA
-    req_json = get_hepta_data()
+
+    whiteboard_id = get_whiteborad_id()
+    cache_key = f'{whiteboard_id}'
+
+    req_json = get_hepta_data(whiteboard_id)
     HEPTABASE_DATA = {'result': 'success',
                       'data': req_json, 'time': int(time.time())}
+
+    cache.set(cache_key, HEPTABASE_DATA, timeout=3600)  # 更新缓存并设置新的超时时间
+
     return HEPTABASE_DATA
 
 
