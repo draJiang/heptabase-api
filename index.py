@@ -37,7 +37,7 @@ def get_hepta_data(whiteboard_id):
 
 
 app = Flask(__name__)
-cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
 CORS(app, supports_credentials=True)
 
 
