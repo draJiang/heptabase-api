@@ -13,7 +13,7 @@ jobs:
 
       - name: Fetch JSON data
         run: |
-          curl https://example.com/api/data > data.json
+          curl https://api.dabing.one > data.json
 
       - name: Save JSON data to repository
         run: |
