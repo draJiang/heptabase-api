@@ -2,7 +2,7 @@ name: Fetch JSON Data
 
 on:
   schedule:
-    - cron: '*/2 * * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   fetch-json:
@@ -17,11 +17,10 @@ jobs:
 
       - name: Save JSON data to repository
         run: |
-          mkdir -p WhiteboardData
-          today=$(date '+%Y-%m-%d')
-          echo "$(<data.json)" > WhiteboardData/$today.json
-          git add WhiteboardData/$today.json
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
-          git commit -m "Update WhiteboardData/$today.json"
+          git add data.json
+          git commit -m "Update data.json"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
