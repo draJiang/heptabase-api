@@ -2,7 +2,7 @@ name: Fetch JSON Data
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 每天定时触发
+    - cron: '*/2 * * * *'
 
 jobs:
   fetch-json:
