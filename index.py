@@ -11,7 +11,6 @@ HEPTABASE_WHITEBOARD_ID = 'd4cc3728297609add1a00aab108e90c4e57a1c378cfc2307c2517
 # 存储 heptabase base 数据
 HEPTABASE_DATA = {'result': 'erro', 'data': {}, 'time': ''}
 
-
 def get_whiteborad_id():
     '''
     获取 whiteborad ID
