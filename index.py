@@ -11,6 +11,7 @@ HEPTABASE_WHITEBOARD_ID = 'd4cc3728297609add1a00aab108e90c4e57a1c378cfc2307c2517
 # 存储 heptabase base 数据
 HEPTABASE_DATA = {'result': 'erro', 'data': {}, 'time': ''}
 
+
 def get_whiteborad_id():
     '''
     获取 whiteborad ID
@@ -19,7 +20,7 @@ def get_whiteborad_id():
     if(whiteboard_id):
         return whiteboard_id
     else:
-        return HEPTABASE_WHITEBOARD_ID
+        return None
 
 
 def get_hepta_data(whiteboard_id):
@@ -52,10 +53,15 @@ def home():
         return cache.get(cache_key)['data']
     else:
 
-        if(whiteboard_id and whiteboard_id != 'null'):
+        if(whiteboard_id):
             req = get_hepta_data(whiteboard_id)
         else:
-            req = get_hepta_data(HEPTABASE_WHITEBOARD_ID)
+            # 返回 Jiang 的数字花园数据
+            with open('data.json', mode='r') as my_file:
+                req = my_file.read()
+                req = json.loads(req)
+                return {'result': 'success', 'code': req['code'],
+                        'data': req['data'], 'time': int(time.time())}
 
         HEPTABASE_DATA = {'result': 'success', 'code': req['code'],
                           'data': req['data'], 'time': int(time.time())}
