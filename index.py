@@ -57,11 +57,14 @@ def home():
             req = get_hepta_data(whiteboard_id)
         else:
             # 返回 Jiang 的数字花园数据
-            with open('data.json', mode='r') as my_file:
-                req = my_file.read()
-                req = json.loads(req)
-                return {'result': 'success', 'code': req['code'],
-                        'data': req['data'], 'time': int(time.time())}
+            
+            # with open('data.json', mode='r') as my_file:
+            #     req = my_file.read()
+            #     req = json.loads(req)
+            #     return {'result': 'success', 'code': req['code'],
+            #             'data': req['data'], 'time': int(time.time())}
+            
+            req = get_hepta_data(HEPTABASE_WHITEBOARD_ID)
 
         HEPTABASE_DATA = {'result': 'success', 'code': req['code'],
                           'data': req['data'], 'time': int(time.time())}
