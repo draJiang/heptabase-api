@@ -2,7 +2,7 @@ name: Fetch JSON Data
 
 on:
   schedule:
-    -  cron: '0 20 * * *' # 每天 UTC 时间 04:00 执行
+    -  cron: '0 20 * * 0' # 每个周日 UTC 时间 04:00 执行
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
 
       - name: Fetch JSON data
         run: |
-          curl https://api.dabing.one > data.json
+          curl https://api.dabing.one?whiteboard_id=d4cc3728297609add1a00aab108e90c4e57a1c378cfc2307c251745bf7d2a884 > data.json
 
       - name: Save JSON data to repository
         run: |
