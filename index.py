@@ -36,6 +36,7 @@ def get_hepta_data(whiteboard_id):
 
 
 app = Flask(__name__)
+app.config['REQUEST_TIMEOUT'] = 60
 cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
 CORS(app, supports_credentials=True)
 
