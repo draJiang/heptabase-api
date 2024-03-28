@@ -27,9 +27,8 @@ def get_hepta_data(whiteboard_id):
     '''
     获取 heptabase 数据
     '''
-
     req = requests.get(
-        'https://app.heptabase.com/api/whiteboard/?secret='+whiteboard_id)
+        'https://api.heptabase.com/v1/whiteboard-sharing/?secret='+whiteboard_id)
     if(req.status_code != 200):
         return {'code': req.status_code, 'data': ''}
     else:
