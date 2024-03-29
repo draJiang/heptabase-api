@@ -27,8 +27,18 @@ def get_hepta_data(whiteboard_id):
     '''
     获取 heptabase 数据
     '''
+    headers = {
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Encoding': 'gzip, deflate, br, zstd',
+        'Accept-Language': 'en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7,zh-CN;q=0.6'
+    }
     req = requests.get(
-        'https://api.heptabase.com/v1/whiteboard-sharing/?secret='+whiteboard_id)
+        'https://api.heptabase.com/v1/whiteboard-sharing/?secret=' + whiteboard_id,
+        headers=headers
+    )
+    req.encoding = 'utf-8'  # Manually set the encoding
+
+
     if(req.status_code != 200):
         return {'code': req.status_code, 'data': ''}
     else:
@@ -61,10 +71,12 @@ def home():
             # with open('data.json', mode='r') as my_file:
             #     req = my_file.read()
             #     req = json.loads(req)
-            #     return {'result': 'success', 'code': req['code'],
-            #             'data': req['data'], 'time': int(time.time())}
             
             req = get_hepta_data(HEPTABASE_WHITEBOARD_ID)
+            
+            # with open('data.json', 'w', encoding='utf-8') as f:
+            #     json.dump(req, f, ensure_ascii=False, indent=4)
+                
 
         HEPTABASE_DATA = {'result': 'success', 'code': req['code'],
                           'data': req['data'], 'time': int(time.time())}
